@@ -1,4 +1,4 @@
-package br.alura.forumhub.model;
+package br.alura.forumhub.domain.model;
 
 import lombok.Getter;
 
