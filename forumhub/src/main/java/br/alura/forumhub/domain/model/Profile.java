@@ -1,5 +1,6 @@
 package br.alura.forumhub.domain.model;
 
+import br.alura.forumhub.domain.dto.profile.NewProfileDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,4 +34,9 @@ public class Profile {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TopicAnswer> answersWrited;
+
+    public Profile(NewProfileDTO newProfileData) {
+        this.id = null;
+        this.name = newProfileData.name();
+    }
 }

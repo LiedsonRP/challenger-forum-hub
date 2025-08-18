@@ -1,0 +1,2 @@
+alter table users add soft_deleted tinyint;
+update users set soft_deleted = 1;

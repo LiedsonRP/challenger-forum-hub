@@ -1,10 +1,13 @@
 package br.alura.forumhub.domain.model;
 
+import br.alura.forumhub.domain.dto.Topic.UpdateTopicInfoDTO;
+import br.alura.forumhub.domain.dto.topic.NewTopicDataDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -12,7 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode(of = "id")
 @Table(name = "forum_topic")
 /**
  * Entidade que representa um tópico do fórum
@@ -45,5 +47,39 @@ public class ForumTopic {
     private Course course;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<TopicAnswer> answer;
+    private List<TopicAnswer> answers = new ArrayList<>();
+
+    public ForumTopic(NewTopicDataDTO data, Profile profile) {
+
+        this.id = null;
+        this.title = data.title();
+        this.message = data.message();
+        this.author = profile;
+
+        this.status = Status.OPEN;
+        this.createdAt = LocalDateTime.now();
+
+        this.course = new Course();
+        this.course.setId(data.courseId());
+    }
+
+    public void updateForumTopicInfo(UpdateTopicInfoDTO data) {
+
+        if (data.title() != null) {
+            this.setTitle(data.title());
+        }
+
+        if(data.message() != null) {
+            this.setMessage(data.message());
+        }
+
+        if (data.status() != null) {
+            this.setStatus(data.status());
+        }
+
+        if (data.course() != null) {
+            this.setCourse(data.course());
+        }
+
+    }
 }

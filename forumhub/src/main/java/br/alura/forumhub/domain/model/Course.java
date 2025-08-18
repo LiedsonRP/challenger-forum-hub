@@ -1,8 +1,11 @@
 package br.alura.forumhub.domain.model;
 
+import br.alura.forumhub.domain.dto.course.NewCourseData;
 import jakarta.persistence.*;
 import lombok.*;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,6 +31,12 @@ public class Course {
     private Category category;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ForumTopic> topicsCreated;
+    private List<ForumTopic> topicsCreated = new ArrayList<>();
+
+    public Course(NewCourseData data) {
+        this.id = null;
+        this.name = data.name();
+        this.category = data.category();
+    }
 
 }
